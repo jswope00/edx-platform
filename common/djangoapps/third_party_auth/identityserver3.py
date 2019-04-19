@@ -23,7 +23,7 @@ class IdentityServer3(BaseOAuth2):
         # functions. in that case, this function should return the
         # authentication strategy, i.e:
         # return self.strategy.authenticate(self, *args, **kwargs)
-    return
+        return
 
     def get_user_details(self, response):
         # An example of an override of the get_user_details() function
