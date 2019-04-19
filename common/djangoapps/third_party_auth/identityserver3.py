@@ -1,15 +1,14 @@
-"""
-  python-social-auth backend for use with IdentityServer3
-  docs: https://identityserver.github.io/Documentation/docsv2/endpoints/authorization.html
-  docs for adding a new backend to python-social-auth:
-  https://python-social-auth.readthedocs.io/en/latest/backends/implementation.html#oauth
-"""
 from social_core.backends.oauth import BaseOAuth2
 
 
 class IdentityServer3(BaseOAuth2):
+    """
+    python-social-auth backend for use with IdentityServer3
+    docs: https://identityserver.github.io/Documentation/docsv2/endpoints/authorization.html
+    docs for adding a new backend to python-social-auth:
+    https://python-social-auth.readthedocs.io/en/latest/backends/implementation.html#oauth
+    """
     name = "identityServer3"
-
     # these settings and possibly others will be required from the customer.
     # depending on how the server is set up.
     AUTHORIZATION_URL = ''
@@ -24,20 +23,14 @@ class IdentityServer3(BaseOAuth2):
         # functions. in that case, this function should return the
         # authentication strategy, i.e:
         # return self.strategy.authenticate(self, *args, **kwargs)
-        return
+    return
 
     def get_user_details(self, response):
         # An example of an override of the get_user_details() function
         # Provided by BaseOAuth2
         # the userdata endpoint needed from the customer.
         url = ""
-        header = {"Authorization": "Bearer %s" % response['access_token']}
+        # The access token returned from the service
+        header = {"Authorization": u"Bearer %s" % response['access_token']}
         user = self.get_json(url, headers=header)
-        # some example data to be returned from the service
-        return {
-            'fullname': "",
-            'first_name': "",
-            'last_name': "",
-            'username': "",
-            'email': "",
-        }
+        return user
