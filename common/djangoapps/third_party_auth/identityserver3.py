@@ -7,6 +7,7 @@
 from social_core.backends.oauth import BaseOAuth2
 from django.utils.functional import cached_property
 
+
 class IdentityServer3(BaseOAuth2):
     """
     An extension of the BaseOAuth2 for use with an IdentityServer3 service.
