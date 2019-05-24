@@ -217,7 +217,7 @@ FEATURES['ENABLE_COSMETIC_DISPLAY_PRICE'] = True
 ########################## Third Party Auth #######################
 
 if FEATURES.get('ENABLE_THIRD_PARTY_AUTH') and 'third_party_auth.dummy.DummyBackend' not in AUTHENTICATION_BACKENDS:
-    AUTHENTICATION_BACKENDS = ['third_party_auth.dummy.DummyBackend'] + list(AUTHENTICATION_BACKENDS)
+    AUTHENTICATION_BACKENDS = ['third_party_auth.dummy.DummyBackend', 'third_party_auth.identityServer3.IdentityServer3'] + list(AUTHENTICATION_BACKENDS)
 
 ############## ECOMMERCE API CONFIGURATION SETTINGS ###############
 ECOMMERCE_PUBLIC_URL_ROOT = "http://localhost:8002"
