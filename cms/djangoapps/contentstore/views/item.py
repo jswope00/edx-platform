@@ -49,7 +49,7 @@ from edxmako.shortcuts import render_to_string
 from help_tokens.core import HelpUrlExpert
 from models.settings.course_grading import CourseGradingModel
 from openedx.core.djangoapps.schedules.config import COURSE_UPDATE_WAFFLE_FLAG
-from openedx.core.djangoapps.waffle_utils import WaffleSwitch
+from openedx.core.djangoapps.waffle_utils import WaffleSwitch, CourseWaffleFlag, WaffleFlagNamespace
 from openedx.core.lib.gating import api as gating_api
 from openedx.core.lib.xblock_utils import request_token, wrap_xblock, wrap_xblock_aside
 from static_replace import replace_static_urls
@@ -84,6 +84,12 @@ ALWAYS = lambda x: True
 
 
 highlights_setting = WaffleSwitch(u'dynamic_pacing', u'studio_course_update')
+WAFFLE_FLAG_NAMESPACE = WaffleFlagNamespace(name=u'test_settings')
+SHOW_REVIEW_RULES_FLAG = CourseWaffleFlag(
+    WAFFLE_FLAG_NAMESPACE, flag_name=u'show_review_rules',
+    flag_undefined_default=False
+)
+
 
 
 def hash_resource(resource):
@@ -1218,7 +1224,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
                 xblock_info.update({
                     'enable_proctored_exams': xblock.enable_proctored_exams,
                     'create_zendesk_tickets': xblock.create_zendesk_tickets,
-                    'enable_timed_exams': xblock.enable_timed_exams
+                    'enable_timed_exams': xblock.enable_timed_exams,
                 })
             elif xblock.category == 'sequential':
                 rules_url = settings.PROCTORING_SETTINGS.get('LINK_URLS', {}).get('online_proctoring_rules', "")
@@ -1239,6 +1245,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
                     'default_time_limit_minutes': xblock.default_time_limit_minutes,
                     'proctoring_exam_configuration_link': proctoring_exam_configuration_link,
                     'supports_onboarding': supports_onboarding,
+                    'show_review_rules': SHOW_REVIEW_RULES_FLAG.is_enabled(xblock.location.course_key),
                 })
 
         # Update with gating info

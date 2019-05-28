@@ -431,7 +431,9 @@ define(['jquery', 'backbone', 'underscore', 'gettext', 'js/views/baseview',
             if (!this.isValidTimeLimit(this.$('.field-time-limit input').val())) {
                 this.$('.field-time-limit input').val('00:30');
             }
-            if (showRulesField) {
+
+            let  showReviewBlock = this.model.get('show_review_rules');
+            if (showRulesField && showReviewBlock) {
                 this.$('.field-exam-review-rules').show();
             } else {
                 this.$('.field-exam-review-rules').hide();
@@ -487,7 +489,12 @@ define(['jquery', 'backbone', 'underscore', 'gettext', 'js/views/baseview',
                     this.$('input.practice_exam').prop('checked', true);
                 } else {
                     this.$('input.proctored_exam').prop('checked', true);
-                    this.$('.field-exam-review-rules').show();
+                    let showReviewBlock = this.model.get('show_review_rules');
+                    if (!showReviewBlock) {
+                      this.$('.field-exam-review-rules').hide();
+                    } else {
+                      this.$('.field-exam-review-rules').show();
+                    }
                 }
             } else {
                 // Since we have an early exit at the top of the method
