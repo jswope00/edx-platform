@@ -15,14 +15,13 @@ from opaque_keys.edx.keys import UsageKey
 from courseware.models import StudentModule
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from student.models import CourseEnrollment
-from super_csv import ChecksumMixin, CSVProcessor, DeferrableMixin
 
 from .config.waffle import ENFORCE_FREEZE_GRADE_AFTER_COURSE_END, waffle_flags
 
 log = logging.getLogger(__name__)
 
 
-class ScoreCSVProcessor(ChecksumMixin, DeferrableMixin, CSVProcessor):
+class ScoreCSVProcessor():
     """
     CSV Processor for file format defined for Staff Graded Points
     """

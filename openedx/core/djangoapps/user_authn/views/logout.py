@@ -11,6 +11,8 @@ from django.utils.http import urlencode
 from django.views.generic import TemplateView
 from provider.oauth2.models import Client
 
+from edxmako.shortcuts import render_to_response
+
 from openedx.core.djangoapps.user_authn.cookies import delete_logged_in_cookies
 from openedx.core.djangoapps.user_authn.utils import is_safe_login_or_logout_redirect
 
@@ -114,17 +116,23 @@ class LogoutView(TemplateView):
         uris += settings.IDA_LOGOUT_URI_LIST
 
         referrer = self.request.META.get('HTTP_REFERER', '').strip('/')
-        logout_uris = []
+        logout_uris = ['http://localhost:18130/logout/']
 
-        for uri in uris:
-            # Only include the logout URI if the browser didn't come from that IDA's logout endpoint originally,
-            # avoiding a double-logout.
-            if not referrer or (referrer and not uri.startswith(referrer)):
-                logout_uris.append(self._build_logout_url(uri))
+        # for uri in uris:
+        #     # Only include the logout URI if the browser didn't come from that IDA's logout endpoint originally,
+        #     # avoiding a double-logout.
+        #     if not referrer or (referrer and not uri.startswith(referrer)):
+        #         logout_uris.append(self._build_logout_url(uri))
 
         context.update({
             'target': self.target,
             'logout_uris': logout_uris,
+            'ecom_csrf': self.request.COOKIES.get('ecommerce_csrftoken')
         })
-
         return context
+
+
+class ConfirmLogout(TemplateView):
+    def get(self, request, *args, **kwargs):
+        response = render_to_response('confirm_logout.html')
+        return response
