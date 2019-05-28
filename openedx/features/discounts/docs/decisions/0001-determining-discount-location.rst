@@ -45,10 +45,10 @@ Decisions
       for the data. If the ultimate destination of that data was the LMS (to decide whether to message the 
       discount), we would have excess communication and more failure points. See below for a diagram of what we
       don't want:
-      LMS -asks for discount applicability------------------> Ecommerce
-      LMS <-----------asks for data to dermine applicability- Ecommerce
-      LMS -sends back data----------------------------------> Ecommerce
-      LMS <-------------------------sends back applicability- Ecommerce
+      |LMS -asks for discount applicability------------------> Ecommerce
+      |LMS <-----------asks for data to dermine applicability- Ecommerce
+      |LMS -sends back data----------------------------------> Ecommerce
+      |LMS <-------------------------sends back applicability- Ecommerce
 
 #. **Communication of discount applicability**
 
@@ -72,7 +72,7 @@ Decisions
       Rather than have to implement the front-end code in Ecommerce to do this twice, we will write the code
       to make the ajax call, and if there is a discount, reload the page passing the JWT as a parameter. See
       diagram below for current (interum) state of the communication of the discount:
-      LMS <--asks about discount applicability- Ecom Frontend                                      Ecom Backend
-      LMS -sends applicability as JWT---------> Ecom Frontend
-      -----IF APPLICABLE----
-      LMS                                       Ecom Frontend -Reloads the page w/ JWT as param--> Ecom Backend
+      |LMS <--asks about discount applicability- Ecom Frontend                                      Ecom Backend
+      |LMS -sends applicability as JWT---------> Ecom Frontend
+      |-----IF APPLICABLE----
+      |LMS                                       Ecom Frontend -Reloads the page w/ JWT as param--> Ecom Backend
