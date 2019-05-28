@@ -2,8 +2,7 @@
     Unit tests for the IdentityServer3 OAuth2 Backend
 """
 
-from mock import patch
-from third_party_auth.identityserver3 import IdentityServer3
+from third_party_auth import identityServer3
 from third_party_auth.tests import testutil
 from third_party_auth.tests.factories import OAuth2ProviderConfigFactory
 
@@ -12,9 +11,10 @@ class IdentityServer3Test(testutil.TestCase):
     """
     Unit tests for the IdentityServer3 OAuth2 Backend
     """
+
     def setUp(self):
         super(IdentityServer3Test, self).setUp()
-        self.id3_instance = IdentityServer3()
+        self.id3_instance = identityServer3.IdentityServer3()
 
     def test_proper_get_of_user_id(self):
         """
@@ -35,7 +35,7 @@ class IdentityServer3Test(testutil.TestCase):
             test that the IdentityServer3 model properly grabs OAuth2Configs
         """
         provider_config = OAuth2ProviderConfigFactory.create(backend_name="identityServer3")
-        self.assertEqual(self.id3_instance._id3_config, provider_config)
+        self.assertEqual(self.id3_instance.get_config(), provider_config)
 
     def test_config_after_updating(self):
         """
@@ -43,5 +43,5 @@ class IdentityServer3Test(testutil.TestCase):
         """
         original_provider_config = OAuth2ProviderConfigFactory.create(slug="original", backend_name="identityServer3")
         updated_provider_config = OAuth2ProviderConfigFactory.create(slug="updated", backend_name="identityServer3")
-        self.assertEqual(self.id3_instance._id3_config, updated_provider_config)
-        self.assertNotEqual(self.id3_instance._id3_config, original_provider_config)
+        self.assertEqual(self.id3_instance.get_config(), updated_provider_config)
+        self.assertNotEqual(self.id3_instance.get_config(), original_provider_config)

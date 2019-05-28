@@ -20,20 +20,20 @@ class IdentityServer3(BaseOAuth2):
     ID_KEY = "sub"
 
     def authorization_url(self):
-        return self._id3_config.get_setting('auth_url')
+        return self.get_config().get_setting('auth_url')
 
     def access_token_url(self):
-        return self._id3_config.get_setting('token_url')
+        return self.get_config().get_setting('token_url')
 
     def get_redirect_uri(self, state=None):
-        return self._id3_config.get_setting('redirect_uri')
+        return self.get_config().get_setting('redirect_uri')
 
     def user_data(self, access_token, *args, **kwargs):
         """
         consumes the access_token to get data about the user logged
         into the service.
         """
-        url = self._id3_config.get_setting('user_info_url')
+        url = self.get_config().get_setting('user_info_url')
         # The access token returned from the service's token route.
         header = {"Authorization": u"Bearer %s" % access_token}
         return self.get_json(url, headers=header)
@@ -58,6 +58,9 @@ class IdentityServer3(BaseOAuth2):
         except KeyError:
             user_id = None
         return user_id
+
+    def get_config(self):
+        return self._id3_config
 
     @cached_property
     def _id3_config(self):
