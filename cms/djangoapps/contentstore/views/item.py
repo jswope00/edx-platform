@@ -91,7 +91,6 @@ SHOW_REVIEW_RULES_FLAG = CourseWaffleFlag(
 )
 
 
-
 def hash_resource(resource):
     """
     Hash a :class:`web_fragments.fragment.FragmentResource`.
